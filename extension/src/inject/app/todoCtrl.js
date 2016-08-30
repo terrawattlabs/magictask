@@ -60,6 +60,7 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService) {
     function pullTasks(data) {
 
         taskService.getTasks(data).then(function(x){
+          console.log(x);
             $scope.taskList = [];
                 for (var i = 0; i <= x.length - 1; i++) {
                         for (var a = 0; a <= x[i].data.data.length - 1; a++) {

@@ -2,12 +2,13 @@ angular.module('app').service('taskService', function ($q, $http) {
 
 // SET YOUR WORKSPACE AND AUTHORIZATION VARIABLES HERE!!!
 
-var workspace = 64385798792062; // Only one workspace available right now, can update this in the future.
+//var workspace = 64385798792062; // Only one workspace available right now, can update this in the future.
+
+var workspace = 134656470675157;
 
 var personal_token = '0/d1b679d62915f096030442a49841eddf'; 
 var bearer_token = 'Bearer ' + personal_token;
 
-var limitTasks = 10; // limites the number of tasks per project that come in
 
 
 // END SETTING CUSTOM VARIABLES
@@ -20,7 +21,7 @@ var _this = this;
 this.getProjects = function (){
 	var deferred = $q.defer();
 
-	var fullUrl = 'https://app.asana.com/api/1.0/workspaces/' + workspace + '/projects?opt_fields=color,name&limit=' + limitTasks;
+	var fullUrl = 'https://app.asana.com/api/1.0/workspaces/' + workspace + '/projects?opt_fields=color,name&limit=10';
 
 	$http({
 	  method: 'GET',
@@ -48,7 +49,7 @@ this.getTasks = function(pjs) {
     angular.forEach(pjs , function(pj) {
 
     	var projID = pj.id;
-    	var projurl = "https://app.asana.com/api/1.0/projects/" + projID + "/tasks?opt_fields=assignee,id,completed_at,due_on,due_at,name,projects&limit=20&completed_since=now";
+    	var projurl = "https://app.asana.com/api/1.0/projects/" + projID + "/tasks?opt_fields=assignee,id,completed_at,due_on,due_at,name,projects&limit=20&completed_since=now&assignee=me";
 
         var promise = $http({
             url   : projurl,
