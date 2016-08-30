@@ -31,8 +31,8 @@
 </ul>
 
 <h5>5. Save the file and Install Extension</h5>
-	<p>You can go to your Chrome extensions settings and drag the "extension" folder onto the page to install</p>
-	<p>Then refresh inbox and you'll see the Magic Task box in the bottom left.</p>
+<p>You can go to your Chrome extensions settings and drag the "extension" folder onto the page to install</p>
+<p>Then refresh inbox and you'll see the Magic Task box in the bottom left.</p>
 
 
 
