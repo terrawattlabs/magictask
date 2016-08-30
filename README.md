@@ -42,6 +42,7 @@
 	<li>It pulls only tasks that are assigned to you and exist within that workspace you selected</li>
 	<li>It also only pulls tasks that HAVE a due date</li>
 	<li>You can create new tasks (automatically assigned to you) along with a due date with normal language input</li>
+	<li>Mark tasks as complete in the extension with one click</li>
 </ul>
 
 
