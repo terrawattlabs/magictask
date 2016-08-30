@@ -2,9 +2,9 @@ angular.module('app').service('taskService', function ($q, $http) {
 
 // SET YOUR WORKSPACE AND AUTHORIZATION VARIABLES HERE!!!
 
-//var workspace = 64385798792062; // Only one workspace available right now, can update this in the future.
+var workspace = 64385798792062; // Only one workspace available right now, can update this in the future.
 
-var workspace = 134656470675157;
+
 
 var personal_token = '0/d1b679d62915f096030442a49841eddf'; 
 var bearer_token = 'Bearer ' + personal_token;
@@ -30,7 +30,7 @@ this.getProjects = function (){
 		    'Authorization': bearer_token
 		  } 
 	}).success(function(data){
-		console.log(data.data);
+		
 		deferred.resolve(data);
 	}).error(function(msg, code){
 		deferred.reject(msg);
@@ -41,46 +41,32 @@ this.getProjects = function (){
 
 };
 
-this.getTasks = function(pjs) {
 
+
+this.getTasks = function (){
 	var deferred = $q.defer();
-	var promises = [];
 
-    angular.forEach(pjs , function(pj) {
+	var fullUrl = 'https://app.asana.com/api/1.0/tasks?opt_fields=assignee,name,notes,workspace,projects,due_on,completed&assignee=me&completed_since=now&limit=10&workspace=' + workspace;
 
-    	var projID = pj.id;
-    	var projurl = "https://app.asana.com/api/1.0/projects/" + projID + "/tasks?opt_fields=assignee,id,completed_at,due_on,due_at,name,projects&limit=20&completed_since=now&assignee=me";
+	$http({
+	  method: 'GET',
+	  url: fullUrl,
+	  headers: {
+		    'Authorization': bearer_token
+		  } 
+	}).success(function(data){
+		
+		deferred.resolve(data);
+	}).error(function(msg, code){
+		deferred.reject(msg);
+		console.log(msg);
+	});
 
-        var promise = $http({
-            url   : projurl,
-            method: 'GET',
-             headers: {
-		    			'Authorization': bearer_token
-		  			  } 
-        });
-
-        promises.push(promise);
-
-    });
-
-    $q.all(promises)
-    .then(
-            function(results) {
-            deferred.resolve(
-             results
-          )},
-          function(errors) {
-            deferred.reject(errors);
-          },
-          function(updates) {
-            deferred.update(updates);
-          });
-
-
-    return deferred.promise;
-
+	return deferred.promise;
 
 };
+
+
 
 this.markCompleted = function (id) {
 	var deferred = $q.defer();

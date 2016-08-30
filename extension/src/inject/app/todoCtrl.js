@@ -22,11 +22,12 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService) {
         
 
          taskService.getProjects().then(function(d){
-        console.log(d.data);
+        
         $scope.projList = [];
         $scope.projList = d.data;
+        console.log(d.data);
 
-        pullTasks(d.data);
+        pullTasks();
         });
 
     };
@@ -60,19 +61,20 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService) {
     function pullTasks(data) {
 
         taskService.getTasks(data).then(function(x){
-          console.log(x);
+          
             $scope.taskList = [];
-                for (var i = 0; i <= x.length - 1; i++) {
-                        for (var a = 0; a <= x[i].data.data.length - 1; a++) {
+            for (var i =0 ; i <= x.data.length -1; i++) {
+              
+            
 
-                            if (x[i].data.data[a].due_on == null) {
+                            if (x.data[i].due_on == null) {
 
                             } else{
 
                             var obj = {};
                             var dueObj = {};
 
-                            dueObj.due = moment(x[i].data.data[a].due_on).hour(23).minute(59);
+                            dueObj.due = moment(x.data[i].due_on).hour(23).minute(59);
                             dueObj.mom = dueObj.due.fromNow();
                             dueObj.cal = dueObj.due.calendar(null, {
                                   sameDay: '[Today]',
@@ -85,20 +87,20 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService) {
                             var dueMonth = dueObj.due.get('month') + 1;
                             var dueDate = dueObj.due.get('date');
                             dueObj.date = dueMonth + "/" + dueDate;
-                            dueObj.givenDueDate = x[i].data.data[a].due_on;
+                            dueObj.givenDueDate = x.data[i].due_on;
 
 
                     
 
-                           var project = search(x[i].data.data[a].projects[0].id, $scope.projList);
+                           var project = search(x.data[i].projects[0].id, $scope.projList);
                            var color = project.color;
                            var projName = project.name;
                            //console.log(color);
 
-                            obj.name = x[i].data.data[a].name;
+                            obj.name = x.data[i].name;
                             
                             obj.dueObj = dueObj;
-                            obj.id = x[i].data.data[a].id;
+                            obj.id = x.data[i].id;
                             obj.color = color;
                             obj.projName = projName;
                             obj.completed = false;
@@ -106,8 +108,8 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService) {
                             $scope.taskList.push(obj);
 
                         }// end else block
-                        } // end second for block
-                } // end first for block
+                      }
+                
 
                 $scope.taskList.sort(function (a, b) {
                   if (a.dueObj.due > b.dueObj.due) {
