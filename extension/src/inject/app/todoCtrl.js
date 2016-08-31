@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app').controller('todoCtrl', function ($scope, taskService) {
+angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout) {
 
 
     $scope.showMagicTask = false;
@@ -123,6 +123,7 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService) {
                 });
 
                 createBadge();
+                $timeout(pullTasks, 300000);
 
                 //console.log($scope.taskList);
             });
