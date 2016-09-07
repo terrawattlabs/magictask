@@ -136,6 +136,47 @@
   min-height: 20em;
 }
 
+.taskhover {
+	background-color: #ecf0f1;
+	cursor: pointer;
+}
+
+
+/*Task Detail View*/
+
+.project-detail {
+	padding: 1em;
+}
+
+.title-input {
+	border: none;
+}
+
+.inputFocused {
+	border: 3px solid #555;
+}
+
+.detail-date {
+	color: #bdc3c7;
+	font-weight: 400;
+  	font-style: italic;
+}
+
+.detail-projname {
+	border-radius: 1em;
+	padding: .25em .5em .25em .5em;
+}
+
+.notes-holder {
+	margin: 1em 0em 1em 0em;
+	display: flex;
+	justify-content: space-around;
+}
+
+.notes-area {
+	width: 100%;	
+
+}
 
 /* End task list CSS */
 
@@ -187,7 +228,7 @@
 	background-color: rgb(255, 237, 164); color: rgb(144, 100, 97);
 }
 .light-orange {
-	background-color: rgb(250, 205, 170); color: rgb(225, 112, 0);
+	background-color: #FD9A00; color: white;
 }
 .light-purple {
 	background-color: rgb(215, 190, 228); color: rgb(103, 67, 179);

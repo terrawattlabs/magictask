@@ -1,9 +1,25 @@
 'use strict';
 
-angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout) {
+angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout, userService) {
+
+ userService.getCredentials("jackdean","welcome").then(function(d){
+                //console.log(d);
+
+                //future function for pulling API credentials from a server using the userService
+
+                });
+
 
 
     $scope.showMagicTask = false;
+
+    // show task list or task detail. 
+    // List == true
+    // detail == false
+
+    $scope.showTasks = true;
+
+    $scope.selectedTask;
 
     $scope.toggleMagicTask = function (){
       $scope.showMagicTask = !$scope.showMagicTask;
@@ -25,7 +41,7 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
         
         $scope.projList = [];
         $scope.projList = d.data;
-        console.log(d.data);
+        
 
         pullTasks();
         });
@@ -62,6 +78,7 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
 
         taskService.getTasks(data).then(function(x){
           
+           
             $scope.taskList = [];
             for (var i =0 ; i <= x.data.length -1; i++) {
               
@@ -95,6 +112,7 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
                            var project = search(x.data[i].projects[0].id, $scope.projList);
                            var color = project.color;
                            var projName = project.name;
+
                            //console.log(color);
 
                             obj.name = x.data[i].name;
@@ -102,8 +120,9 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
                             obj.dueObj = dueObj;
                             obj.id = x.data[i].id;
                             obj.color = color;
-                            obj.projName = projName;
+                            obj.projObj = project;
                             obj.completed = false;
+                            obj.notes = x.data[i].notes;
 
                             $scope.taskList.push(obj);
 
@@ -123,6 +142,7 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
                 });
 
                 createBadge();
+                console.log($scope.taskList);
                 $timeout(pullTasks, 300000);
 
                 //console.log($scope.taskList);
@@ -177,7 +197,11 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
 
             $scope.taskList[x].completed = true;
 
-            taskService.markCompleted(id).then(function(d){
+            var update = {
+          "completed": true
+          };
+
+            taskService.updateTask(id,update).then(function(d){
                 initData();
 
                 });
@@ -296,6 +320,46 @@ $scope.notReady = function (){
 };
 
 
+
+$scope.toggleDetail = function (i) {
+  $scope.showTasks = !$scope.showTasks;
+  if ($scope.showTasks == true) {
+    $scope.selectedTask = "";
+  } else {
+     $scope.selectedTask = $scope.taskList[i];
+  };
+
+  console.log($scope.selectedTask);
+
+};
+
+$scope.completeTask = function (t) {
+
+   var update = {
+          "completed": true
+          };
+    
+    taskService.updateTask(t.id,update).then(function(d){
+                initData();
+                $scope.toggleDetail();
+
+                });
+};
+
+$scope.saveTask = function(){
+
+    var update = {};
+
+    var id = $scope.selectedTask.id;
+    update.notes = $scope.selectedTask.notes;
+    update.name = $scope.selectedTask.name;
+
+    taskService.updateTask(id,update).then(function(d){
+                initData();
+                $scope.toggleDetail();
+              });
+
+};
 
 
 

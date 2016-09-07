@@ -50,6 +50,7 @@
         "/src/inject/app/app.js",
         "/src/inject/app/todoCtrl.js",
         "/src/inject/app/taskService.js",
+        "src/inject/app/userService.js",
         "/src/inject/inject.js"
        ]
     }

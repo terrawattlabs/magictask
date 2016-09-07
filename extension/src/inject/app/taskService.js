@@ -68,9 +68,10 @@ this.getTasks = function (){
 
 
 
-this.markCompleted = function (id) {
+this.updateTask = function (id,d) {
 	var deferred = $q.defer();
 	var taskURL = 'https://app.asana.com/api/1.0/tasks/' + id;
+
 
 	console.log(taskURL);
 
@@ -80,10 +81,7 @@ this.markCompleted = function (id) {
 	  headers: {
 		    'Authorization': bearer_token
 		  },
-		  data: {"data":
-					{
-					"completed": true
-					}
+		  data: {"data": d
 				}
 	}).success(function(data){
 		deferred.resolve(data);
