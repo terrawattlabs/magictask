@@ -132,6 +132,10 @@
 
 }
 
+.service-image {
+	height: 2em;
+}
+
 .add-task-container {
   min-height: 20em;
 }

@@ -37,7 +37,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://inbox.google.com/*"
+        "https://www.google.com/*"
       ],
       "css": ["/src/inject/inject.css"],
       "js": [

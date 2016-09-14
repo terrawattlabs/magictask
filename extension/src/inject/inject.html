@@ -1,7 +1,7 @@
 
     <div class='magic-content-container' ng-controller='todoCtrl'>
         <div class="top-bar"> 
-            <span class="magic-title">Magic Task (Smoke) <span class="badge">{{dueTasks}}</span></span>
+            <span class="magic-title">Magic Task<span class="badge">{{dueTasks}}</span></span>
             <span class="show-hide" ng-click="toggleMagicTask()" ng-show="showMagicTask">Hide</span>
             <span class="show-hide" ng-click="toggleMagicTask()" ng-hide="showMagicTask">Show</span>
         </div>
@@ -31,7 +31,7 @@
         </div>
 
         <div class='row' id="todo-list" ng-hide="addTaskDiv">
-            <div class='todo-item col-md-12 single-task' ng-repeat='t in taskList' ng-class="taskClass(t)">
+            <div class='todo-item col-md-12 single-task' ng-repeat='t in smokeTestTasks | limitTo: taskLimit' ng-class="taskClass(t)">
                 <div class="task-content" 
                 ng-class="{taskhover: hover}" 
                 ng-mouseenter="hover = true"
@@ -39,9 +39,11 @@
                     <div>
                          <input type='checkbox' ng-model="t.completed" ng-click='markCompleted($index)'/>
                     </div>
+
+                   
                     <div class="task-description todo-content" ng-click="toggleDetail($index)">
-                        <span>{{t.name}}</span>
-                        <span class="due-date">due {{t.dueObj.cal}} in {{t.projObj.name}}</span>
+                        <span> {{t.name}}</span>
+                        <span class="due-date"><img class="service-image" src="{{t.service.img_url}}" alt="{{t.service.name}}"/> due {{t.dueObj.cal}} in {{t.projObj.name}}</span>
                     </div>
                     <div>
                          <span ng-class="dueDateClass(t)">{{t.dueObj.date}}</span>
@@ -50,10 +52,12 @@
                 <div class="task-footer" ng-class="t.color"></div>
                
             </div>
+           
         </div>
 
         <div class='row'>
             <div class='col-md-12'>
+             <a ng-click="changeLimit('more')"> Show More</a> <a ng-click="changeLimit('less')"> Show Less</a>
                 <div id='toolbar'>
                     <button class="btn btn-success add-task" ng-click="toggleAdd()" ng-hide="addTaskDiv">Add Task</button>
                     <button class="btn btn-default btn-sm" ng-click="toggleAdd()" ng-show="addTaskDiv">View Tasks</button>
@@ -63,15 +67,14 @@
     
 
 
-       
-
+    
     </div>
 
     <!-- Task detail view -->
 
     <div ng-hide="showTasks" class="project-detail">
         <div class="detail-header">
-            <h4><input type='checkbox' ng-click='completeTask(selectedTask)'/> <input type="text" class="title-input" ng-model="selectedTask.name" ng-init="focused = false" ng-focus="focused = true" ng-blur="focused = false" ng-mouseenter="focused = true"
+            <h4><input type='checkbox' ng-click='completeTask(selectedTask)'/><img class="service-image" src="{{selectedTask.service.img_url}}" alt="{{selectedTask.service.name}}"/><input type="text" class="title-input" ng-model="selectedTask.name" ng-init="focused = false" ng-focus="focused = true" ng-blur="focused = false" ng-mouseenter="focused = true"
                 ng-mouseleave="focused = false"/></h4>
             <span class="detail-date">{{selectedTask.dueObj.cal}} </span><span class="detail-projname" ng-class="selectedTask.color"> {{selectedTask.projObj.name}}</span>
             
@@ -79,7 +82,7 @@
         <div class="notes-holder">
            <textarea class="notes-area" ng-model="selectedTask.notes" placeholder="Type your notes here"></textarea>
         </div>
-        <a ng-href="https://app.asana.com/0/{{selectedTask.projObj.id}}/{{selectedTask.id}}">View in Asana</a>
+        <a ng-href="https://app.asana.com/0/{{selectedTask.projObj.id}}/{{selectedTask.id}}">View in {{selectedTask.service.name}}</a>
         <br>
         <div class="detail-footer">
             <button class="btn btn-sm btn-default" ng-click="toggleDetail()">Back</button> 

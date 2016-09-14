@@ -2,6 +2,15 @@
 
 angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout, userService) {
 
+  //smoke test code
+    $scope.smokeTestTasks = taskService.smokeTest();
+
+
+
+
+
+  //  smoke test code end
+
  userService.getCredentials("jackdean","welcome").then(function(d){
                 //console.log(d);
 
@@ -319,14 +328,22 @@ $scope.notReady = function (){
   return disable;
 };
 
-
+$scope.taskLimit = 5;
+$scope.changeLimit = function(d) {
+  if (d == 'more') {
+    $scope.taskLimit = $scope.taskLimit + 3;
+  }
+  if (d == 'less') {
+    $scope.taskLimit = $scope.taskLimit - 3;
+  }
+};
 
 $scope.toggleDetail = function (i) {
   $scope.showTasks = !$scope.showTasks;
   if ($scope.showTasks == true) {
     $scope.selectedTask = "";
   } else {
-     $scope.selectedTask = $scope.taskList[i];
+     $scope.selectedTask = $scope.smokeTestTasks[i];
   };
 
   console.log($scope.selectedTask);
