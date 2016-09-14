@@ -12,6 +12,7 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
 
 
     $scope.showMagicTask = false;
+    $scope.taskLimit = 5;
 
     // show task list or task detail. 
     // List == true
@@ -359,6 +360,14 @@ $scope.saveTask = function(){
                 $scope.toggleDetail();
               });
 
+};
+
+$scope.changeLimit = function (d) {
+  if (d == 'more') {
+    $scope.taskLimit = $scope.taskLimit + 5;
+  } if (d == 'less') {
+    $scope.taskLimit = Math.max($scope.taskLimit - 5, 1);
+  };
 };
 
 

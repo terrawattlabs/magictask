@@ -31,7 +31,7 @@
         </div>
 
         <div class='row' id="todo-list" ng-hide="addTaskDiv">
-            <div class='todo-item col-md-12 single-task' ng-repeat='t in taskList' ng-class="taskClass(t)">
+            <div class='todo-item col-md-12 single-task' ng-repeat='t in taskList | limitTo: taskLimit' ng-class="taskClass(t)">
                 <div class="task-content" 
                 ng-class="{taskhover: hover}" 
                 ng-mouseenter="hover = true"
@@ -54,6 +54,7 @@
 
         <div class='row'>
             <div class='col-md-12'>
+                <a ng-click="changeLimit('more')">More</a> <a ng-click="changeLimit('less')">Less</a>
                 <div id='toolbar'>
                     <button class="btn btn-success add-task" ng-click="toggleAdd()" ng-hide="addTaskDiv">Add Task</button>
                     <button class="btn btn-default btn-sm" ng-click="toggleAdd()" ng-show="addTaskDiv">View Tasks</button>
