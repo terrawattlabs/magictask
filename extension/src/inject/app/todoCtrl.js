@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout, userService) {
-
+angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout, userService, serviceService, asanaService) {
 
 
 $scope.loginPage = true;
-$scope.number;
+
 
 
 $scope.login = function (){
@@ -17,15 +16,20 @@ $scope.login = function (){
 
 function pullUserInfo(u) {
    userService.pullConnections(u.id).then(function(d){
-               updateToken(d.data[0].credential_object.refreshToken,d.data[0].pull_settings);
-                
+
+              for (var i = d.data.length - 1; i >= 0; i--) {
+                if (d.data[i].name == 'asana') {
+                   updateToken(d.data[i].credential_object.refreshToken,d.data[i].pull_settings);
+                }
+              }
+              
+              
                 });
 };
 
 function updateToken(r,s){
   taskService.refreshToken(r).then(function(d){
-    console.log(d.data.access_token);
-    $scope.number = d.data.access_token;
+    userService.setToken('asana', d.data.access_token);
     createProjectArray(s);
   });
 
@@ -63,16 +67,18 @@ function createProjectArray (connection) {
     }
   }
 
-  taskService.pullProjectInfo(results,$scope.number).then(function(d){
+  taskService.pullProjectInfo(results).then(function(d){
     for (var i = d.length - 1; i >= 0; i--) {
       $scope.projList.push(d[i].data.data);
     }
-    $scope.projList 
-    console.log(d);
+    
+    pullTasks(results);
   });
+};
 
 
-  taskService.pullTasksByProject(results, $scope.number).then(function(d){
+  function pullTasks(r) {
+      taskService.pullTasksByProject(r).then(function(d){
             
                 console.log(d);
                 var arr = [];
@@ -82,10 +88,7 @@ function createProjectArray (connection) {
                     arr.push(d[i].data.data[x]);
                   }
                   if (i == 0) {
-                     console.log(arr);
-                   compileTaskList(arr);
-                   
-
+                   compileAsanaTaskList(arr);
 
                   }
 
@@ -93,10 +96,7 @@ function createProjectArray (connection) {
 
               
                 });
-
-
-};
-
+  };
 
 
     $scope.showMagicTask = false;
@@ -133,7 +133,7 @@ function createProjectArray (connection) {
         $scope.projList = d.data;
         
 
-        pullTasks();
+   
         });
 
     };
@@ -163,7 +163,7 @@ function createProjectArray (connection) {
     }
 };
 
-    function compileTaskList(arr) {
+    function compileAsanaTaskList(arr) {
           
             $scope.taskList = [];
             for (var i =0 ; i <= arr.length -1; i++) {
@@ -194,7 +194,7 @@ function createProjectArray (connection) {
 
 
                     
-
+                           var img_url = serviceService.getServiceValues('asana').img_url;
                            var project = search(arr[i].projects[0].id, $scope.projList);
                            var color = project.color;
                            var projName = project.name;
@@ -202,31 +202,22 @@ function createProjectArray (connection) {
                            //console.log(color);
 
                             obj.name = arr[i].name;
-                            
+
+                            obj.service = 'asana';
                             obj.dueObj = dueObj;
                             obj.id = arr[i].id;
                             obj.color = color;
                             obj.projObj = project;
                             obj.completed = false;
                             obj.notes = arr[i].notes;
+                            obj.img_url = img_url;
 
                             $scope.taskList.push(obj);
 
                         }// end else block
                       }
                 
-
-                $scope.taskList.sort(function (a, b) {
-                  if (a.dueObj.due > b.dueObj.due) {
-                    return 1;
-                  }
-                  if (a.due < b.due) {
-                    return -1;
-                  }
-                  // a must be equal to b
-                  return 0;
-                });
-
+                sortTaskList();
                 createBadge();
          
                 $scope.loginPage = false;
@@ -239,6 +230,20 @@ function createProjectArray (connection) {
     };
 
 
+
+//sort the task list by due date... called from other functions that add items to task list
+function sortTaskList (){
+  $scope.taskList.sort(function (a, b) {
+    if (a.dueObj.due > b.dueObj.due) {
+      return 1;
+    }
+    if (a.due < b.due) {
+      return -1;
+    }
+    // a must be equal to b
+    return 0;
+  });
+};
 
 
 

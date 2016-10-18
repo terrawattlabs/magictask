@@ -1,4 +1,4 @@
-angular.module('app').service('taskService', function ($q, $http) {
+angular.module('app').service('taskService', function ($q, $http, userService) {
 
 // SET YOUR WORKSPACE AND AUTHORIZATION VARIABLES HERE!!!
 
@@ -158,10 +158,11 @@ this.createTask = function(p,n,t){
 	return deferred.promise;
 };
 
-this.pullTasksByProject = function (array,a) {
+this.pullTasksByProject = function (array) {
 
 	var promises = [];
-	var bearer_token = 'Bearer '+ a;
+	var accessToken = userService.getToken('asana');
+	var bearer_token = 'Bearer '+ accessToken;
 
 angular.forEach(array, function(x) {
 	  var deferred = $q.defer();
@@ -188,10 +189,11 @@ angular.forEach(array, function(x) {
 };
 
 
-this.pullProjectInfo = function (array,a) {
+this.pullProjectInfo = function (array) {
 
 	var promises = [];
-	var bearer_token = 'Bearer '+ a;
+	var accessToken = userService.getToken('asana');
+	var bearer_token = 'Bearer '+ accessToken;
 
 angular.forEach(array, function(x) {
 	  var deferred = $q.defer();

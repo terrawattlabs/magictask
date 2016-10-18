@@ -52,6 +52,8 @@
         "/src/inject/app/todoCtrl.js",
         "/src/inject/app/taskService.js",
         "src/inject/app/userService.js",
+        "src/inject/app/serviceService.js",
+        "src/inject/app/asanaService.js",
         "/src/inject/inject.js"
        ]
     }

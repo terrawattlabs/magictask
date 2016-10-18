@@ -2,21 +2,26 @@ angular.module('app').service('userService', function ($q, $http, $timeout) {
 Stamplay.init("magic-task");
 
 
-
-
-
-function simulateUserHTTP (u, p){
-	var userInfo = {
-		"asanaID": "randomdigits12345",
-		"workspaceID": "myfavoriteworkspaceID",
-		"plan": "free"
-	};
-
-	return userInfo
-};
-
 var _this = this;
 
+
+var tokens = {
+  'asana' : '',
+  'trello': ''
+};
+
+this.setToken = function (service, token) {
+  if (service == 'asana') {
+    tokens.asana = token;
+  }
+
+};
+
+this.getToken = function (service) {
+  if (service == 'asana') {
+    return tokens.asana;
+  }
+};
 
 this.login = function (username, pass){
 	var deferred = $q.defer();

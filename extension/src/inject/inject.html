@@ -56,7 +56,7 @@
                     </div>
                     <div class="task-description todo-content" ng-click="toggleDetail($index)">
                         <span>{{t.name}}</span>
-                        <span class="due-date">due {{t.dueObj.cal}} in {{t.projObj.name}}</span>
+                        <span class="due-date"><img class="service-image" src="{{t.img_url}}"/> due {{t.dueObj.cal}} in {{t.projObj.name}}</span>
                     </div>
                     <div>
                          <span ng-class="dueDateClass(t)">{{t.dueObj.date}}</span>
