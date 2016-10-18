@@ -37,7 +37,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://inbox.google.com/*"
+        "https://www.google.com/*"
       ],
       "css": ["/src/inject/inject.css"],
       "js": [
@@ -47,6 +47,7 @@
         "/src/inject/lib/angular/ui-bootstrap-2.1.1.js",
         "/src/inject/lib/moment/moment.js",
         "/src/inject/lib/chrono/chrono.js",
+        "/src/inject/lib/stamplay/stamplay.min.js",
         "/src/inject/app/app.js",
         "/src/inject/app/todoCtrl.js",
         "/src/inject/app/taskService.js",

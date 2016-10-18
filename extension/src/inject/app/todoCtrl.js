@@ -2,12 +2,102 @@
 
 angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout, userService) {
 
- userService.getCredentials("jackdean","welcome").then(function(d){
-                //console.log(d);
 
-                //future function for pulling API credentials from a server using the userService
 
+$scope.loginPage = true;
+$scope.number;
+
+
+$scope.login = function (){
+   userService.login($scope.useremail, $scope.userpass).then(function(d){
+                
+                pullUserInfo(d);
                 });
+};
+
+function pullUserInfo(u) {
+   userService.pullConnections(u.id).then(function(d){
+               updateToken(d.data[0].credential_object.refreshToken,d.data[0].pull_settings);
+                
+                });
+};
+
+function updateToken(r,s){
+  taskService.refreshToken(r).then(function(d){
+    console.log(d.data.access_token);
+    $scope.number = d.data.access_token;
+    createProjectArray(s);
+  });
+
+};
+
+function createProjectArray (connection) {
+
+  var array = $.map(connection, function(value, index) {
+    return [value];
+});
+
+  console.log(array);
+
+  var results = [];
+
+  for (var i = array.length - 1; i >= 0; i--) {
+    if (array[i].pull == true) {
+      
+
+      var projArray = $.map(array[i].projects, function(value, index) {
+                        return [value];
+                    });
+
+
+      for (var x = projArray.length - 1; x >= 0; x--) {
+        var projObj = {};
+        if (projArray[x].pull == true) {
+      
+          projObj["workspace"] = array[i].id;
+          projObj["project"] = projArray[x].id;
+          results.push(projObj);
+        }
+        
+      }
+    }
+  }
+
+  taskService.pullProjectInfo(results,$scope.number).then(function(d){
+    for (var i = d.length - 1; i >= 0; i--) {
+      $scope.projList.push(d[i].data.data);
+    }
+    $scope.projList 
+    console.log(d);
+  });
+
+
+  taskService.pullTasksByProject(results, $scope.number).then(function(d){
+            
+                console.log(d);
+                var arr = [];
+
+                for (var i = d.length - 1; i >= 0; i--) {
+                  for (var x = d[i].data.data.length - 1; x >= 0; x--) {
+                    arr.push(d[i].data.data[x]);
+                  }
+                  if (i == 0) {
+                     console.log(arr);
+                   compileTaskList(arr);
+                   
+
+
+                  }
+
+                };
+
+              
+                });
+
+
+
+
+};
 
 
 
@@ -29,16 +119,17 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
     $scope.dueTasks = 0;
 
 
-    $scope.projList;
+    $scope.projList = [];
     $scope.selectedProject = {"name": "Select a Project"};
 
     $scope.taskList = [];
+
 
     function initData (){
         
         
 
-         taskService.getProjects().then(function(d){
+        taskService.getProjects().then(function(d){
         
         $scope.projList = [];
         $scope.projList = d.data;
@@ -49,7 +140,6 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
 
     };
 
-    initData();
    
 
     function createBadge() {
@@ -75,24 +165,21 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
     }
 };
 
-    function pullTasks(data) {
-
-        taskService.getTasks(data).then(function(x){
+    function compileTaskList(arr) {
           
-           
             $scope.taskList = [];
-            for (var i =0 ; i <= x.data.length -1; i++) {
+            for (var i =0 ; i <= arr.length -1; i++) {
               
             
 
-                            if (x.data[i].due_on == null) {
+                            if (arr[i].due_on == null) {
 
                             } else{
 
                             var obj = {};
                             var dueObj = {};
 
-                            dueObj.due = moment(x.data[i].due_on).hour(23).minute(59);
+                            dueObj.due = moment(arr[i].due_on).hour(23).minute(59);
                             dueObj.mom = dueObj.due.fromNow();
                             dueObj.cal = dueObj.due.calendar(null, {
                                   sameDay: '[Today]',
@@ -105,25 +192,25 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
                             var dueMonth = dueObj.due.get('month') + 1;
                             var dueDate = dueObj.due.get('date');
                             dueObj.date = dueMonth + "/" + dueDate;
-                            dueObj.givenDueDate = x.data[i].due_on;
+                            dueObj.givenDueDate = arr[i].due_on;
 
 
                     
 
-                           var project = search(x.data[i].projects[0].id, $scope.projList);
+                           var project = search(arr[i].projects[0].id, $scope.projList);
                            var color = project.color;
                            var projName = project.name;
 
                            //console.log(color);
 
-                            obj.name = x.data[i].name;
+                            obj.name = arr[i].name;
                             
                             obj.dueObj = dueObj;
-                            obj.id = x.data[i].id;
+                            obj.id = arr[i].id;
                             obj.color = color;
                             obj.projObj = project;
                             obj.completed = false;
-                            obj.notes = x.data[i].notes;
+                            obj.notes = arr[i].notes;
 
                             $scope.taskList.push(obj);
 
@@ -144,10 +231,12 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
 
                 createBadge();
                 console.log($scope.taskList);
-                $timeout(pullTasks, 300000);
+                $scope.loginPage = false;
+                 console.log('login page = ' + $scope.loginPage);
+                 console.log('show tasks  = ' + $scope.showTasks);
+                 console.log('showMagicTask = ' + $scope.showMagicTask);
 
-                //console.log($scope.taskList);
-            });
+               // $timeout(pullTasks, 300000);
 
 
 

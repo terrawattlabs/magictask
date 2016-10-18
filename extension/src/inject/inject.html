@@ -5,6 +5,21 @@
             <span class="show-hide" ng-click="toggleMagicTask()" ng-show="showMagicTask">Hide</span>
             <span class="show-hide" ng-click="toggleMagicTask()" ng-hide="showMagicTask">Show</span>
         </div>
+
+        <div ng-show="loginPage">
+                <form class="form-signin" ng-submit="login()">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                     <label for="inputEmail" class="sr-only">Email address</label>
+                     <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="useremail">
+                     <label for="inputPassword" class="sr-only">Password</label>
+                     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" ng-model="userpass">
+               
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+              </form>
+        </div>
+
+<div ng-hide="loginPage">
+
         <div ng-show="showMagicTask && showTasks" class="magic-task">
             <div class='row'>
             <div class='col-md-12'>
@@ -89,7 +104,12 @@
 
     </div>
 
+    
+</div>
+
     <!-- End task detail view -->
+
+
 
 </div>
 
