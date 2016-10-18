@@ -95,8 +95,6 @@ function createProjectArray (connection) {
                 });
 
 
-
-
 };
 
 
@@ -230,11 +228,9 @@ function createProjectArray (connection) {
                 });
 
                 createBadge();
-                console.log($scope.taskList);
+         
                 $scope.loginPage = false;
-                 console.log('login page = ' + $scope.loginPage);
-                 console.log('show tasks  = ' + $scope.showTasks);
-                 console.log('showMagicTask = ' + $scope.showMagicTask);
+          
 
                // $timeout(pullTasks, 300000);
 
@@ -243,20 +239,6 @@ function createProjectArray (connection) {
     };
 
 
-    //console.log(taskService.getProjects());
-
-    $scope.todoList = [
-    {
-        "title": "Finsih this thing",
-        "Due Date": "tomorrow",
-        "Project": "Gnarly Jack's"
-    },
-    {
-        "title": "Buy Something",
-        "Due Date": "Saturday",
-        "Project": "Gnarly Jack's"
-    }
-    ];
 
 
 
