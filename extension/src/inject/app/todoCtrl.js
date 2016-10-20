@@ -5,6 +5,12 @@ angular.module('app').controller('todoCtrl', function ($scope, taskService, $tim
 
 $scope.loginPage = true;
 
+var userPullSettings = {
+  'asana': '',
+  'trello': ''
+};
+
+var asanaRefresh;
 
 
 $scope.login = function (){
@@ -19,7 +25,9 @@ function pullUserInfo(u) {
 
               for (var i = d.data.length - 1; i >= 0; i--) {
                 if (d.data[i].name == 'asana') {
-                   updateToken(d.data[i].credential_object.refreshToken,d.data[i].pull_settings);
+                  userPullSettings.asana = d.data[i].pull_settings;
+                  asanaRefresh = d.data[i].credential_object.refreshToken;
+                   updateToken(asanaRefresh, userPullSettings.asana);
                 }
               }
               
@@ -279,7 +287,7 @@ function sortTaskList (){
           };
 
             taskService.updateTask(id,update).then(function(d){
-                initData();
+                updateToken(asanaRefresh, userPullSettings.asana);
 
                 });
       };
@@ -375,7 +383,7 @@ $scope.sendTask = function (){
 
   taskService.createTask(projects,name,due).then(function(d){
           console.log(d);
-          initData();
+          updateToken(asanaRefresh, userPullSettings.asana);
           $scope.toggleAdd();
           $scope.taskInput="";
           $scope.newTask = [];

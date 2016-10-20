@@ -6,8 +6,8 @@ var workspace = 64385798792062; // Only one workspace available right now, can u
 
 
 
-var personal_token = '0/d1b679d62915f096030442a49841eddf'; 
-var bearer_token = 'Bearer ' + personal_token;
+//var personal_token = '0/d1b679d62915f096030442a49841eddf'; 
+//var bearer_token = 'Bearer ' + personal_token;
 
 
 
@@ -104,9 +104,9 @@ this.getTasks = function (){
 this.updateTask = function (id,d) {
 	var deferred = $q.defer();
 	var taskURL = 'https://app.asana.com/api/1.0/tasks/' + id;
+	var accessToken = userService.getToken('asana');
+	var bearer_token = 'Bearer '+ accessToken;
 
-
-	console.log(taskURL);
 
 	$http({
 	  method: 'PUT',
@@ -129,6 +129,9 @@ this.updateTask = function (id,d) {
 this.createTask = function(p,n,t){
 	var deferred = $q.defer();
 	var taskURL = 'https://app.asana.com/api/1.0/tasks/';
+
+	var accessToken = userService.getToken('asana');
+	var bearer_token = 'Bearer '+ accessToken;
 
 	//console.log(taskURL);
 
