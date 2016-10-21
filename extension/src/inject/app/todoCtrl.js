@@ -2,8 +2,24 @@
 
 angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout, userService, serviceService, asanaService) {
 
-
 $scope.loginPage = true;
+$scope.loginForm = true;
+$scope.waitingPage = false;
+
+
+Stamplay.User.currentUser()
+    .then(function(res) {
+      $scope.waitingPage = true;
+      $scope.loginForm = false;
+
+
+      pullUserInfo(res.user);
+      //console.log(res);
+    }, function(err) {
+      console.log(err);
+    });
+
+
 
 var userPullSettings = {
   'asana': '',
@@ -14,6 +30,8 @@ var asanaRefresh;
 
 
 $scope.login = function (){
+  $scope.loginForm = false;
+  $scope.waitingPage = true;
    userService.login($scope.useremail, $scope.userpass).then(function(d){
                 
                 pullUserInfo(d);
@@ -167,6 +185,14 @@ function createProjectArray (connection) {
     for (var i=0; i < myArray.length; i++) {
         if (myArray[i].id === id) {
             return myArray[i];
+        }
+    }
+};
+
+ function searchForIndex(id, myArray){
+    for (var i=0; i < myArray.length; i++) {
+        if (myArray[i].id === id) {
+            return i;
         }
     }
 };
@@ -420,13 +446,18 @@ $scope.toggleDetail = function (i) {
 
 $scope.completeTask = function (t) {
 
+  var taskIndex = searchForIndex(t.id,$scope.taskList);
+
+  console.log(taskIndex);
+
    var update = {
           "completed": true
           };
     
     taskService.updateTask(t.id,update).then(function(d){
-                initData();
+                updateToken(asanaRefresh, userPullSettings.asana);
                 $scope.toggleDetail();
+                $scope.taskList[taskIndex].completed = true;
 
                 });
 };
@@ -440,7 +471,7 @@ $scope.saveTask = function(){
     update.name = $scope.selectedTask.name;
 
     taskService.updateTask(id,update).then(function(d){
-                initData();
+                updateToken(asanaRefresh, userPullSettings.asana);
                 $scope.toggleDetail();
               });
 
@@ -453,6 +484,12 @@ $scope.changeLimit = function (d) {
     $scope.taskLimit = Math.max($scope.taskLimit - 5, 1);
   };
 };
+
+
+
+
+
+
 
 
 

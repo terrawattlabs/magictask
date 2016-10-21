@@ -7,7 +7,8 @@
         </div>
 
         <div ng-show="loginPage">
-                <form class="form-signin" ng-submit="login()">
+            <div ng-show="loginForm">
+                  <form class="form-signin" ng-submit="login()">
                 <h2 class="form-signin-heading">Please sign in</h2>
                      <label for="inputEmail" class="sr-only">Email address</label>
                      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" ng-model="useremail">
@@ -16,6 +17,16 @@
                
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
               </form>
+            </div>
+            <div ng-show="waitingPage">
+                <h3>
+                    Hold on, bro. We're getting your tasks for you. 
+                </h3>
+                <h3>
+                    Give us a god damn second....
+                </h3>
+            </div>
+              
         </div>
 
 <div ng-hide="loginPage">
@@ -91,11 +102,12 @@
                 ng-mouseleave="focused = false"/></h4>
             <span class="detail-date">{{selectedTask.dueObj.cal}} </span><span class="detail-projname" ng-class="selectedTask.color"> {{selectedTask.projObj.name}}</span>
             
+            
         </div>
         <div class="notes-holder">
            <textarea class="notes-area" ng-model="selectedTask.notes" placeholder="Type your notes here"></textarea>
         </div>
-        <a ng-href="https://app.asana.com/0/{{selectedTask.projObj.id}}/{{selectedTask.id}}">View in Asana</a>
+        <a ng-href="https://app.asana.com/0/{{selectedTask.projObj.id}}/{{selectedTask.id}}" target="_blank">View in Asana</a>
         <br>
         <div class="detail-footer">
             <button class="btn btn-sm btn-default" ng-click="toggleDetail()">Back</button> 
