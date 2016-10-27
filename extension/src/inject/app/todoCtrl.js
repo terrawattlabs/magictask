@@ -7,19 +7,35 @@ $scope.loginForm = true;
 $scope.waitingPage = false;
 
 
+$scope.logoutUser = function(){
+    userService.logout().then(function(d){
+                
+          console.log(d);
+          $scope.loginPage = true;
+          $scope.loginForm = true;
+          $scope.waitingPage = false;
+        });
+};
+
 Stamplay.User.currentUser()
     .then(function(res) {
-      $scope.waitingPage = true;
-      $scope.loginForm = false;
-
-
-      pullUserInfo(res.user);
+     
+      //console.log(res);
+      if (res.user) {
+         $scope.waitingPage = true;
+         $scope.loginForm = false;
+         console.log(res);
+         console.log("pulled user");
+        pullUserInfo(res.user);
+      } else {
+         console.log('i dont think i found a user');
+      }
+      
+     
       //console.log(res);
     }, function(err) {
       console.log(err);
     });
-
-
 
 var userPullSettings = {
   'asana': '',
@@ -39,13 +55,21 @@ $scope.login = function (){
 };
 
 function pullUserInfo(u) {
-   userService.pullConnections(u.id).then(function(d){
-
+  console.log('pull user information');
+   userService.pullMTConnections(u.id).then(function(d){
+              console.log(d);
+              console.log(d.data.length);
+              if (d.data.length == 0) {
+                $scope.waitingPage = false;
+                $scope.loginPage = false;
+              };
+              console.log('inside the pull connections function');
               for (var i = d.data.length - 1; i >= 0; i--) {
                 if (d.data[i].name == 'asana') {
                   userPullSettings.asana = d.data[i].pull_settings;
                   asanaRefresh = d.data[i].credential_object.refreshToken;
                    updateToken(asanaRefresh, userPullSettings.asana);
+                   console.log('found connections');
                 }
               }
               
@@ -54,15 +78,17 @@ function pullUserInfo(u) {
 };
 
 function updateToken(r,s){
+  console.log('update token functino');
   taskService.refreshToken(r).then(function(d){
     userService.setToken('asana', d.data.access_token);
+    console.log('seemed to have set the token');
     createProjectArray(s);
   });
 
 };
 
 function createProjectArray (connection) {
-
+console.log('creating project array');
   var array = $.map(connection, function(value, index) {
     return [value];
 });

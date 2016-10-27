@@ -17,6 +17,12 @@ this.setToken = function (service, token) {
 
 };
 
+this.replyWithHello = function(){
+  console.log('in reply with ehllo function');
+  return "hello world";
+};
+
+
 this.getToken = function (service) {
   if (service == 'asana') {
     return tokens.asana;
@@ -44,17 +50,36 @@ this.login = function (username, pass){
 
 };
 
+this.logout = function (){
+  var deferred = $q.defer();
 
-this.pullConnections = function (user){
+
+  Stamplay.User.logout(true, function(err, res){
+    console.log("logged out");
+    deferred.resolve(res);
+  });
+
+
+  return deferred.promise;
+
+};
+
+
+this.pullMTConnections = function (u){
+  console.log('got to pull connections service');
 	var deferred = $q.defer();
 
-
+  console.log(u);
 	var query = {
-    owner : user
-  }
+    user : u
+  };
 
-  Stamplay.Object("connections").get(query)
+console.log(query);
+
+
+  Stamplay.Object("connections").findByCurrentUser()
     .then(function(res) {
+      console.log(res);
       deferred.resolve(res);
     }, function(err) {
       deferred.resolve(err);
