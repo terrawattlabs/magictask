@@ -1,0 +1,84 @@
+<h3>Welcome, {{user.first_name}}</h3>
+
+<!-- <button class="btn btn-success btn-lg" ng-click="showNewTask()">Create New Task</button>
+ -->
+<div class="user-container">
+    <div class="twothirds-width">
+        <h4>Add Services</h4>
+        <img class="service-images" ng-click="changePage('/setup')" src="http://www.insidetheapp.com/wp-content/uploads/2016/05/asana-vs-trello.png">
+        <img class="service-images" src="https://worldvectorlogo.com/logos/trello.svg" ng-click="changePage('/smoke')">
+    </div>
+    <div class="onethird-width">
+        <h4>Active Apps</h4>
+        <div ng-repeat="c in connections" class="flex-holder task-list">
+            <div><p><strong>{{c.name}} </strong></p></div>
+            <div>
+                <button class="btn btn-sm btn-primary" ng-click="goToEdit($index)"><span class="glyphicon glyphicon-pencil"></span></button>
+                <button class="btn btn-sm btn-danger" ng-click="deleteTask($index)"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- <div ng-hide="newtask">
+	<h4>Your Tasks</h4>
+	<div ng-repeat="t in tasks" class="flex-holder task-list">
+		<div><p><strong>{{t.name}}</strong></p></div>
+		<div><p>{{t.description}}</p></div>
+		<div>
+			<button class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span></button>
+			<button class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
+		</div>
+	</div>
+<p >{{t.name}}</p>
+</div>
+
+<div ng-show="newtask">
+	<div class="form-mini-container">
+
+
+            <h1>Create a New Task</h1>
+
+            <form class="form-mini">
+
+                <div class="form-row">
+                	<label for="name">Name Your Task</label>
+                    <input type="text" name="name" placeholder="Gmail to Asana" ng-model="taskData.name">
+                </div>
+
+                <div class="form-row">
+                	<label for="description">Give it a short description</label>
+                    <input type="text" name="description" placeholder="Sends emails as tasks to Asana" ng-model="taskData.description">
+                </div>
+
+                <div class="form-row">
+                	<label for="zapier_url">Zapier Webhook URL</label>
+                    <input type="text" name="zapier_url" placeholder="https://zapier.com/hooks/catch/*" ng-model="taskData.zapier_url">
+                </div>
+                <button class="btn btn-sm" ng-click="addCustom()">Add Custom Field</button>
+                <a ng-click="showHelp()" ng-hide="help">Whats this?</a>
+                <div ng-show="help">
+                	<a ng-click="showHelp()">Hide</a>
+                	<p>Want to add more data than just what comes from the email? Add extra fields below. </p>
+	                <p>When you proceed to send an email to Zapier, you can add custom info for <i>that</i> task.</p>
+	                <p>Example: Add a custom note when sending an email to Asana as a task: "I helped this person last week with a similar issue." This can add custom context to the task once its in Asana.</p>
+                </div>
+
+                  <div class="form-row" ng-repeat="ext in taskData.extra_fields">
+                	<label>Name this Field</label>
+                    <input type="text" name="" ng-model="taskData.extra_fields[$index].name">
+                </div>
+                
+                
+              
+            
+                <div class="form-row form-last-row">
+                    <button ng-click="saveTask()">Create!</button>
+                </div>
+
+            </form>
+        </div>
+</div> -->
+

@@ -1,0 +1,30 @@
+  <div class="header" ng-controller="NavCtrl">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="#/">Magic Task</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="js-navbar-collapse">
+
+            <ul class="nav navbar-nav">
+            
+              <!-- <li class="active"><a href="#/">Home</a></li> -->
+              <!-- <li><a ng-href="#/about">About</a></li> -->
+              <li class="navlink" ng-class="{ active: isActive('/extension')}" ng-show="loggedIn"><a ng-click="goToPage('/extension')">Install the Extension</a></li>
+              <li class="navlink" ng-class="{ active: isActive('/user')}" ng-show="loggedIn"><a ng-click="goToPage('/user')">Dashboard</a></li>
+              <li class="navlink" ng-show="loggedIn"><a ng-click="logout()">Log Out</a></li>
+              <li class="navlink" ng-hide="loggedIn"><a ng-click="goToPage('/login')">Log In / Register</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>

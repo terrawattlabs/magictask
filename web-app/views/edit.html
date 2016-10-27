@@ -1,0 +1,25 @@
+<h2>Set Your Asana Preferences</h2>
+<p>Here is where you can set which Workspaces and Projects get pulled into your GMail Inbox</p>
+<p>Only tasks from the projects you select below that are both:
+<ol>
+	<li>Assigned to you</li>
+	<li>Have a due date</li>
+</ol>
+will be pulled into your Gmail Inbox. You can always change this later.</p>
+<div ng-show="done">
+	<button class="btn btn-lg btn-success" ng-click="savePreferences()">Save Preferences</button>
+	<div ng-repeat='w in workspaces' style="width: 40%">
+	<h4><input type="checkbox" name="" ng-model="w.pull" ng-click='uncheckWorkspace($index)'> {{w.name}}</h4>
+		<div ng-repeat="p in w.projects" style="margin-left: 20px">
+		<input type="checkbox" name="" ng-model="p.pull" ng-click='uncheckProject($parent.$index, $index)'> {{p.name}}</div>
+	</div>
+</div>
+<div ng-hide="done">
+	<p><img src="/images/ajax-loader.gif"/>Pulling your Workspaces & Projects from Asana.</p>
+</div>
+
+
+
+
+
+

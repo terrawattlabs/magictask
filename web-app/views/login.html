@@ -1,0 +1,90 @@
+<form id="loginform" class="form-horizontal" role="form" ng-show="loginForm" ng-submit="loginUser()">
+<h3>Login</h3>
+                                    
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="email" ng-model="login_email">                                        
+                                    </div>
+                                
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="password" ng-model="login_password">
+                                    </div>
+
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <!-- Button -->
+
+                                    <div class="col-sm-12 controls">
+                                      <button id="btn-login" class="btn btn-success" ng-disabled="processing" type="submit" id="submit" value="Submit">Login</button>
+                                     <!--  <a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a> -->
+
+                                    </div>
+                                    <img ng-show="processing" src="images/ajax-loader.gif">
+                                    <p>{{login_message}}</p>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12 control">
+                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                                            Don't have an account? 
+                                        <a ng-click="showSignup()">
+                                            Sign Up Here
+                                        </a>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </form>     
+
+
+
+        <form role="form" ng-hide="loginForm" ng-submit="registerUser()">
+        <h3>Register for Free</h3>
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name" ng-model="reg_fname"><p ng-class="{ 'helper-warning': fname_warn, 'helper-success': fname_suc }">{{fname_helper}}</p>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name" ng-model="reg_lname"><p ng-class="{ 'helper-warning': lname_warn, 'helper-success': lname_suc }">{{lname_helper}}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address" ng-model="reg_email">
+                  <p ng-class="{ 'helper-warning': email_warn, 'helper-success': email_suc }">{{email_helper}}</p>
+                </div>
+
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password" ng-model="reg_password">
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password" ng-model="reg_pass_check">
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <input type="hidden" name="referrer" id="referrer" class="form-control input-sm" ng-model="ref">
+                    </div>
+                  </div>
+                </div>
+                {{reg_error}}
+                <button type="submit" id="submit" value="Submit" class="btn btn-success btn-block" ng-disable="processing">Register</button><br>
+                <img ng-show="processing" src="images/ajax-loader.gif">
+                <a ng-click="showSignup()">
+                                            Already have an account? Click Here to Login
+                                        </a>
+              </form>
+
+
+
+
+

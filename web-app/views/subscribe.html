@@ -1,0 +1,67 @@
+<div class="row">
+   <div class="col-md-12">
+     <div class="panel panel-default">
+       <div class="panel-heading">
+         Subscribe Here: 7-Day FREE Trial Then $15/month
+       </div>
+       <div class="panel-body">
+         <form class="form-horizontal" ng-submit="pay()">
+           <div class="form-group">
+             <label for="book" class="col-sm-2 control-label">Card Number</label>
+             <div class="col-sm-10">
+               <input
+                 type="text"
+                 ng-model="card.number"
+                 class="form-control"
+                 id="text"
+                 autocomplete="off">
+             </div>
+           </div>
+           <div class="form-group">
+             <label for="book" class="col-sm-2 control-label">CVC</label>
+             <div class="col-sm-10">
+               <input
+                 type="text"
+                 ng-model="card.cvc"
+                 class="form-control"
+                 id="text"
+                 autocomplete="off">
+             </div>
+           </div>
+           <div class="form-group">
+             <label for="book" class="col-sm-2 control-label">Expiry Month</label>
+             <div class="col-sm-10">
+               <input
+                 type="text"
+                 ng-model="card.exp_month"
+                 class="form-control"
+                 id="text"
+                 placeholder="02"
+                 autocomplete="off">
+             </div>
+           </div>
+           <div class="form-group">
+             <label for="book" class="col-sm-2 control-label">Expiry Year</label>
+             <div class="col-sm-10">
+               <input
+                 type="text"
+                 ng-model="card.exp_year"
+                 class="form-control"
+                 id="text"
+                 placeholder="2016"
+                 autocomplete="off">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success" ng-disable="processing">Subscribe for $15/month</button>
+                  <p><i>7-Day Free trial, cancel at any time</i></p>
+                  <img ng-show="processing" src="images/ajax-loader.gif">
+                  <p ng-model="message"></p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>

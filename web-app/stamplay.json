@@ -1,0 +1,10 @@
+{
+  "appId": "magic-task",
+  "apiKey": "eccfa6a7105d0227a03e6195c7e9c393fc43d5f55b7d6899f84345a987677a0d",
+  "public": "./",
+  "ignore": [
+    "stamplay.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

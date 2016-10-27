@@ -1,0 +1,136 @@
+.flex-holder {
+	display: flex;
+	justify-content: space-between;
+}
+
+.task-list {
+	margin: 1em;
+}
+
+.user-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.twothirds-width {
+	flex-grow: 2;
+	margin: 2em;
+	/*background:#bdc3c7;*/
+	border-style: solid;
+	border-width: 1px;
+	border-color: #bdc3c7;
+	border-radius: .25em;
+	padding: 1em;
+}
+
+.onethird-width {
+	margin: 2em;
+	/*background:#bdc3c7;*/
+	border-style: solid;
+	border-width: 1px;
+	border-color: #bdc3c7;
+	border-radius: .25em;
+	padding: 1em;
+}
+
+.add-button {
+	margin-left: .5em;
+}
+
+.app-list {
+
+}
+
+.app-template {
+	display: flex;
+	justify-content: space-between;
+}
+
+.app-template:hover {
+	background: #ecf0f1;
+	cursor: pointer;
+ 	}
+
+.app-logo {
+	max-width: 5em;
+	max-height: 5em;
+	margin: .5em;
+}
+
+.app-logo-holder {
+	max-width: 30%;
+}
+
+.app-description {
+	min-width: 55%;
+
+}
+
+.app-task-templates {
+
+}
+
+.app-task-templates:hover {
+	background: #ecf0f1;
+}
+
+.template-names {
+	margin-left: 5em;
+}
+
+.selected-template {
+	background: #ecf0f1;
+}
+
+.setup-pic {
+	border-width: 1.5em;
+	border-color: #bdc3c7;
+	border-style: solid;
+	border-radius: .75em;
+
+}
+
+.setup-step {
+	margin-bottom: 2em;
+}
+
+.zapSetup {
+	display: flex;
+	flex-direction: column;
+}
+
+.zapButtons {
+	display: flex;
+	justify-content: space-between;
+}
+
+
+.helper-warning {
+	color: red;
+	font-weight: bold;
+}
+
+.helper-success {
+	color: green;
+	font-weight: bold;
+}
+
+.navlink {
+	cursor: pointer;
+}
+
+.navlink:hover {
+	background-color: #e7e7e7;
+}
+
+
+.service-images {
+	max-width: 5em;
+}
+
+
+
+
+
+
+

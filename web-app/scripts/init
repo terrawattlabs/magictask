@@ -1,0 +1,15 @@
+angular.module('zapexApp').run(function($rootScope, User){
+  $rootScope.paid = false;
+
+  // Listen for login events
+  $rootScope.$on('User::loggedIn', function(event, data){
+    $rootScope.loggedIn = true;
+    $rootScope.paid = data.user.instance.paid || false; // Has the user already paid?
+    $rootScope.user = data.user;
+  });
+
+  //Check if there's a user logged in already
+  User.active().then(function(activeUser){
+    console.log("logged in user");
+  });
+});
