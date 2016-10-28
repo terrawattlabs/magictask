@@ -1,10 +1,15 @@
 'use strict';
 
-angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout, userService, serviceService, asanaService) {
+angular.module('app').controller('todoCtrl', function ($scope, taskService, $timeout, userService, serviceService, asanaService, $http) {
 
 $scope.loginPage = true;
 $scope.loginForm = true;
 $scope.waitingPage = false;
+$scope.settings = false;
+
+
+$scope.userName;
+$scope.uEmail;
 
 
 $scope.logoutUser = function(){
@@ -20,12 +25,17 @@ $scope.logoutUser = function(){
 Stamplay.User.currentUser()
     .then(function(res) {
      
-      //console.log(res);
+      console.log(res);
       if (res.user) {
          $scope.waitingPage = true;
          $scope.loginForm = false;
-         console.log(res);
-         console.log("pulled user");
+         $scope.uEmail = res.user.email;
+         $scope.userName = res.user.first_name + " " + res.user.last_name;
+
+         console.log($scope.uEmail);
+         console.log($scope.userName);
+        // console.log(res);
+        // console.log("pulled user");
         pullUserInfo(res.user);
       } else {
          console.log('i dont think i found a user');
@@ -49,16 +59,18 @@ $scope.login = function (){
   $scope.loginForm = false;
   $scope.waitingPage = true;
    userService.login($scope.useremail, $scope.userpass).then(function(d){
-                
+                $scope.uEmail = d.email;
+                $scope.userName = d.first_name + " " + d.last_name;
                 pullUserInfo(d);
+                console.log(d);
                 });
 };
 
 function pullUserInfo(u) {
-  console.log('pull user information');
+  //console.log('pull user information');
    userService.pullMTConnections(u.id).then(function(d){
-              console.log(d);
-              console.log(d.data.length);
+            //  console.log(d);
+            //  console.log(d.data.length);
               if (d.data.length == 0) {
                 $scope.waitingPage = false;
                 $scope.loginPage = false;
@@ -512,6 +524,40 @@ $scope.changeLimit = function (d) {
 };
 
 
+// settings controller
+
+$scope.viewSettings = function () {
+  $scope.settings = true;
+};
+
+
+$scope.apps = [
+  {name: "Trello", status: false},
+  {name: "Github", status: false},
+  {name: "Salesforce", status: false}
+];
+
+$scope.slack = true;
+
+$scope.submitFeedback = function () {
+  $http({
+  method: 'POST',
+  url: 'https://hooks.zapier.com/hooks/catch/1071793/6ncngp/',
+  data: {
+    name: $scope.userName,
+    email: $scope.uEmail,
+    feedback: $scope.feedback,
+    slack: $scope.slackInvite,
+    apps: $scope.apps
+  }
+}).then(function successCallback(response) {
+    console.log(response);
+    $scope.settings = false;
+  }, function errorCallback(response) {
+    console.log(response);
+  });
+
+};
 
 
 

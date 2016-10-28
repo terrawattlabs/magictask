@@ -6,7 +6,7 @@
             <span class="show-hide" ng-click="toggleMagicTask()" ng-hide="showMagicTask">Show</span>
         </div>
 
-        <div ng-show="loginPage">
+        <div ng-show="loginPage && !settings">
             <div ng-show="loginForm">
                   <form class="form-signin" ng-submit="login()">
                 <h2 class="form-signin-heading">Please sign in</h2>
@@ -20,16 +20,16 @@
             </div>
             <div ng-show="waitingPage">
                 <h3>
-                    Hold on, bro. We're getting your tasks for you. 
+                    Hold on, we're getting your tasks for you. 
                 </h3>
                 <h3>
-                    Give us a god damn second....
+                    Give us a second....
                 </h3>
             </div>
               
         </div>
 
-<div ng-hide="loginPage">
+<div ng-hide="loginPage || settings">
 
         <div ng-show="showMagicTask && showTasks" class="magic-task">
             <div class='row'>
@@ -50,7 +50,7 @@
                               </ul>
                             </div>
                     </div>
-
+                           
                          <button class="btn btn-success add-task" ng-click="sendTaks()" ng-disabled="notReady()">Create New Task</button>
                     </form>
             </div>
@@ -80,8 +80,11 @@
 
         <div class='row'>
             <div class='col-md-12'>
-                <a ng-click="changeLimit('more')">More</a> <a ng-click="changeLimit('less')">Less</a> <a ng-click="logoutUser()">Log Out</a>
+                
                 <div id='toolbar'>
+                    <div ng-hide="addTaskDiv">
+                         <a ng-click="changeLimit('more')">More</a> <a ng-click="changeLimit('less')">Less</a> <a ng-click="viewSettings()">Settings</a>
+                    </div>
                     <button class="btn btn-success add-task" ng-click="toggleAdd()" ng-hide="addTaskDiv">Add Task</button>
                     <button class="btn btn-default btn-sm" ng-click="toggleAdd()" ng-show="addTaskDiv">View Tasks</button>
                 </div>
@@ -115,11 +118,43 @@
         </div>
 
     </div>
+     <!-- End task detail view -->
 
+ 
     
 </div>
 
-    <!-- End task detail view -->
+<div ng-show="settings">
+    <div ng-show="!formOpen">
+        <button class="btn btn-sm btn-danger">Logout</button>
+        <p>Change your project settings in <a href="http://magic-task.stamplayapp.com/#/user" target="blank">Magic Task</a></p>
+        <p>Share this link with friends:<br></p>
+        <p><pre>http://magic-task.stamplayapp.com/#/login</pre></p>
+    </div>
+    <h4>Have a Suggestion?</h4>
+    <button class="btn btn-sm btn-success" ng-click="formOpen = !formOpen" ng-show="!formOpen">Yes :)</button>
+    <button class="btn btn-sm btn-danger" ng-click="formOpen = !formOpen" ng-show="formOpen">No :(</button>
+    <form ng-show="formOpen" ng-submit="submitFeedback()">
+        <label>What are your thoughts?</label><br>
+        <textarea ng-model="feedback"></textarea>
+         <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="slack">Invite me to the Slack Feedback Channel
+            </label>
+        </div>
+        <br>
+        <p>What other apps do you use?</p>
+        <div class="checkbox" ng-repeat="a in apps">
+            <label>
+              <input type="checkbox" ng-model="a.status">{{a.name}}
+            </label>
+        </div>
+        <button class="btn btn-success" type="submit">Send Feedback</button>
+    </form>
+    
+</div>
+
+   
 
 
 
